@@ -11,6 +11,7 @@ declare module "react-native-wechat" {
   export interface AuthResponse {
     errCode?: number;
     errStr?: string;
+    state?: string;
     openId?: string;
     code?: string;
     url?: string;
