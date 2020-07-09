@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import androidx.annotation.Nullable;
+import android.util.Log;
 
 import com.facebook.common.executors.UiThreadImmediateExecutorService;
 import com.facebook.common.references.CloseableReference;
@@ -55,6 +56,7 @@ public class WeChatModule extends ReactContextBaseJavaModule implements IWXAPIEv
     private final static String NOT_REGISTERED = "registerApp required.";
     private final static String INVOKE_FAILED = "WeChat API invoke returns false.";
     private final static String INVALID_ARGUMENT = "invalid argument.";
+    private static final String TAG = "WeChatModule";
 
     public WeChatModule(ReactApplicationContext context) {
         super(context);
@@ -93,6 +95,7 @@ public class WeChatModule extends ReactContextBaseJavaModule implements IWXAPIEv
     }
 
     public static void handleIntent(Intent intent) {
+        Log.i(TAG, "handleIntent");
         for (WeChatModule mod : modules) {
             mod.api.handleIntent(intent, mod);
         }
@@ -475,6 +478,8 @@ public class WeChatModule extends ReactContextBaseJavaModule implements IWXAPIEv
         map.putString("errStr", baseResp.errStr);
         map.putString("openId", baseResp.openId);
         map.putString("transaction", baseResp.transaction);
+
+        Log.i(TAG, "onResp: errCode " + baseResp.errCode + " errStr " + baseResp.errStr);
 
         if (baseResp instanceof SendAuth.Resp) {
             SendAuth.Resp resp = (SendAuth.Resp) (baseResp);
